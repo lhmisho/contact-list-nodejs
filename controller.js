@@ -1,14 +1,26 @@
 const Contact = require('./models/Contact')
 
 exports.getAllContacts = (req, res) => {
-    res.json(contacts.getAllContacts())
+    Contact.find()
+        .then(contacts => {
+            res.json(contacts)  
+        })
+        .catch(e => {
+            console.log(e)
+            res.status(500).json({error: "Error occured"})
+        })
 }
 
 exports.getContactById = (req, res) => {
     let { id } = req.params
-    id = parseInt(id)
-    contact = contacts.getContactById(contactId)
-    res.json(contact)
+    Contact.findById(id)
+        .then(contact => {
+            res.json(contact)  
+        })
+        .catch(e => {
+            console.log(e)
+            res.status(500).json({error: "Error occured"})
+        })
 }
 
 exports.createContact = (req, res)  => {
@@ -19,13 +31,13 @@ exports.createContact = (req, res)  => {
         email
     })
     new_contact.save()
-                .then(contact => {
-                    res.json(new_contact)  
-                })
-                .catch(e => {
-                    console.log(e)
-                    res.status(500).json({error: "Error occured"})
-                })
+        .then(contact => {
+            res.json(new_contact)  
+        })
+        .catch(e => {
+            console.log(e)
+            res.status(500).json({error: "Error occured"})
+        })
 }
 
 exports.updateContact = (req, res) => {
