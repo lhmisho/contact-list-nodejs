@@ -1,6 +1,8 @@
 
 const express = require('express')
 const morgan = require('morgan')
+const mongoose = require('mongoose')
+const chalk = require('chalk')
 const contactsRoute = require('./router')
 const app = express()
 
@@ -31,7 +33,7 @@ app.get('/', (req, res) => {
             published: true
         },
     ]
-    res.render('index', {'title': "Learning EJS :_)", posts: posts})
+    res.render('pages/index', {'title': "Learning EJS :_)", posts: posts})
 })
 app.get('/about', (req, res) => {
     res.render('pages/about', {'title': "This is about page"})
@@ -43,8 +45,14 @@ app.get('/contact', (req, res) => {
 app.get('*', (req, res) => {
     res.send('<h1>404 Page not found</h1>')
 })
+const DB_URI = 'mongodb://localhost:27017/contact_list'
 const PORT = process.env.PORT || 8080
-app.listen(PORT, () => {
-    console.log(`Server is running at ${PORT}`)
-})
-    
+mongoose.connect(DB_URI, {useNewUrlParser: true, useUnifiedTopology: true})
+    .then(() => {
+        console.log(chalk.green("DB connected"))
+        app.listen(PORT, () => {
+            console.log(chalk.green(`Server running on ${PORT}`))
+        })        
+    })
+    .catch(e => console.log(e))
+
