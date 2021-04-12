@@ -13,27 +13,46 @@ app.use(express.urlencoded({extended:true}))  // to accept form data
 app.use(express.json())  // to accept json data
 
 
+// create schema
+
+let testSchema = new mongoose.Schema({
+    name: String
+})
+let Test = mongoose.model('Test', testSchema)
+
+
 // use routers
 app.use('/contacts', contactsRoute)
 app.get('/', (req, res) => {
-    let posts = [
-        {
-            title : "Post 1",
-            description: "Post description",
-            published: true
-        },
-        {
-            title : "Post 2",
-            description: "Post description",
-            published: true
-        },
-        {
-            title : "Post 3",
-            description: "Post description",
-            published: true
-        },
-    ]
-    res.render('pages/index', {'title': "Learning EJS :_)", posts: posts})
+    let test = new Test({
+        name: "Md. Lokman Hossen"
+    })
+    test.save()
+        .then(t => {
+            res.json(t)
+        })
+        .catch(e => {
+            console.log(e)
+            res.status(500).json({ error: "error occured" })
+        })
+    // let posts = [
+    //     {
+    //         title : "Post 1",
+    //         description: "Post description",
+    //         published: true
+    //     },
+    //     {
+    //         title : "Post 2",
+    //         description: "Post description",
+    //         published: true
+    //     },
+    //     {
+    //         title : "Post 3",
+    //         description: "Post description",
+    //         published: true
+    //     },
+    // ]
+    // res.render('pages/index', {'title': "Learning EJS :_)", posts: posts})
 })
 app.get('/about', (req, res) => {
     res.render('pages/about', {'title': "This is about page"})
