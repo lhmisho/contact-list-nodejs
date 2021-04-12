@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Working with EJS</title>
+</head>
+<body>
+    <h1><%= title %> </h1>
+    <p>
+        Some dummy text.Some dummy text.Some dummy text.Some dummy text.
+        Some dummy text.Some dummy text.Some dummy text.Some dummy text.
+        Some dummy text.Some dummy text.Some dummy text.Some dummy text.
+        <%= new Date().toString() %> 
+    </p>
+    <% for(let post of posts){ %>
+        <% if (post.published) { %>
+            <h1><%= post.title %> </h1>    
+        <% } %>
+    <% } %> 
+    <ul>
+        <% posts.map((post, idx) => { %>
+            <li>
+                <% if (post.published) { %>
+                    <h1><%= post.title %> </h1>    
+                <% } %>
+            </li>
+        <% }) %>
+    </ul>     
+</body>
+</html>
