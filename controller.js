@@ -1,4 +1,4 @@
-const contacts = require('./Contact')
+const Contact = require('./models/Contact')
 
 exports.getAllContacts = (req, res) => {
     res.json(contacts.getAllContacts())
@@ -13,12 +13,19 @@ exports.getContactById = (req, res) => {
 
 exports.createContact = (req, res)  => {
     let {name, phone, email } = req.body
-    new_contact = contacts.createContact({
+    new_contact = new Contact({
         name,
         phone,
         email
     })
-    res.json(new_contact)
+    new_contact.save()
+                .then(contact => {
+                    res.json(new_contact)  
+                })
+                .catch(e => {
+                    console.log(e)
+                    res.status(500).json({error: "Error occured"})
+                })
 }
 
 exports.updateContact = (req, res) => {
