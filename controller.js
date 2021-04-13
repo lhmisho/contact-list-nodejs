@@ -40,26 +40,29 @@ exports.createContact = (req, res) => {
     if(isError){
         Contact.find()
             .then(contacts => {
-                res.render('pages/index', {contacts, error})
+                return res.render('pages/index', {contacts, error})
             })
             .catch(e => {
                 console.log(e)
-                res.status(500).json({error: "Error occured"})
+                return res.status(500).json({error: "Error occured"})
             })
     }
-    return
+
     new_contact = new Contact({
         name,
         phone,
         email
     })
     new_contact.save()
-        .then(contact => {
-            res.json(new_contact)
+        .then(c => {
+            Contact.find()
+                .then(contacts => {
+                    return res.render('pages/index', {contacts, error:{}})
+                })
         })
         .catch(e => {
             console.log(e)
-            res.status(500).json({ error: "Error occured" })
+            return res.status(500).json({ error: "Error occured" })
         })
 }
 
