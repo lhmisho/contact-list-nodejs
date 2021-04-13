@@ -15,7 +15,7 @@
 <body>
     <div class="container">
         <div class="my-4">
-            <form class="form-inline" method="POST" action="/contacts">
+            <form class="form-inline" method="POST" action="/contacts" id='my-form'>
                 <div class="form-group mr-3">
                     <input id="name" class="form-control <%= error.name ? 'is-invalid' : '' %> " type="text" name="name" placeholder="Name">
                     <div class="invalid-feedback">
@@ -58,7 +58,16 @@
                         <td><%= contact.email %></td>
                         <td><%= contact.phone %></td>
                         <td>
-                            <button class="btn btn-warning btn-sm" type="submit">Edit</button>
+                            <button 
+                                class="btn btn-warning btn-sm edit-btn" 
+                                type="submit"
+                                data-name="<%= contact.name %> "
+                                data-email="<%= contact.email %> "
+                                data-phone="<%= contact.phone %> "
+                                data-id="<%= contact._id %> "
+                            >
+                                Edit
+                            </button>
                             <a class="btn btn-danger btn-sm" href="/contacts/delete/<%= contact._id %>">Delete</a>
                         </td>
                     </tr>
@@ -82,6 +91,23 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+    <script>
+        window.onload = function(){
+            let editBtn = document.getElementsByClassName('edit-btn')
+            ;[...editBtn].forEach(btn => {
+                btn.addEventListener('click', function(e){
+                    console.log(e.target.dataset)
+                    let { name, email, phone, id } = e.target.dataset
+                    let form = document.getElementById('my-form')
+                    form[0].value = name
+                    form[1].value = email
+                    form[2].value = phone
+                    form[3].value = id
+                    form[4].value = 'Update'
+                })
+            })
+        }
+    </script>
 </body>
 
 </html>
