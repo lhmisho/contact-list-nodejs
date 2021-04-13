@@ -1,32 +1,78 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Working with EJS</title>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
+
 <body>
-    <h1><%= title %> </h1>
-    <p>
-        Some dummy text.Some dummy text.Some dummy text.Some dummy text.
-        Some dummy text.Some dummy text.Some dummy text.Some dummy text.
-        Some dummy text.Some dummy text.Some dummy text.Some dummy text.
-        <%= new Date().toString() %> 
-    </p>
-    <% for(let post of posts){ %>
-        <% if (post.published) { %>
-            <h1><%= post.title %> </h1>    
-        <% } %>
-    <% } %> 
-    <ul>
-        <% posts.map((post, idx) => { %>
-            <li>
-                <% if (post.published) { %>
-                    <h1><%= post.title %> </h1>    
-                <% } %>
-            </li>
-        <% }) %>
-    </ul>     
+    <div class="container">
+        <div class="my-4">
+            <form class="form-inline" method="POST" action="/contacts">
+                <div class="form-group mr-3">
+                    <input id="name" class="form-control" type="text" name="name" placeholder="Name">
+                </div>
+                <div class="form-group mr-3">
+                    <input id="email" class="form-control" type="email" name="email" placeholder="Email">
+                </div>
+                <div class="form-group mr-3">
+                    <input id="phone" class="form-control" type="text" name="phone" placeholder="phone">
+                </div>
+                <input type="hidden" name="id">
+                <input type="submit" value="Submit" class="btn btn-primary">
+            </form>
+        </div>
+        <div>
+            <h4>Your Contacts</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% contacts.map((contact, idx) =>{ %> 
+                    <tr>
+                        <td><%= idx+1 %> </td>
+                        <td><%= contact.name %> </td>
+                        <td><%= contact.email %></td>
+                        <td><%= contact.phone %></td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" type="submit">Edit</button>
+                            <a class="btn btn-danger btn-sm" href="/contacts/delete/<%= contact._id %>">Delete</a>
+                        </td>
+                    </tr>
+                    <% }) %> 
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>
