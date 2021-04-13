@@ -3,7 +3,7 @@ const Contact = require('./models/Contact')
 exports.getAllContacts = (req, res) => {
     Contact.find()
         .then(contacts => {
-            res.render('pages/index', {contacts: contacts})
+            res.render('pages/index', {contacts: contacts, error: {}})
         })
         .catch(e => {
             console.log(e)
@@ -25,6 +25,29 @@ exports.getContactById = (req, res) => {
 
 exports.createContact = (req, res) => {
     let { name, phone, email } = req.body
+    console.log(req.body)
+    let error = {}
+    if(!name) {
+        error.name = 'Please provide a name'
+    }
+    if(!email) {
+        error.email = 'Please provide a email'
+    }
+    if(!phone) {
+        error.phone = 'Please provide a phone'
+    }
+    let isError = Object.keys(error).length > 0
+    if(isError){
+        Contact.find()
+            .then(contacts => {
+                res.render('pages/index', {contacts, error})
+            })
+            .catch(e => {
+                console.log(e)
+                res.status(500).json({error: "Error occured"})
+            })
+    }
+    return
     new_contact = new Contact({
         name,
         phone,
